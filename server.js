@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-
+require('express-async-errors');
 // create express app
 const app = express();
 
@@ -13,9 +13,10 @@ app.use(bodyParser.json())
 // Configuring the database
 const dbConfig = require('./config/database.config.js');
 const mongoose = require('mongoose');
+const mongoDBErrors = require('mongoose-mongodb-errors')
 
 mongoose.Promise = global.Promise;
-
+mongoose.plugin(mongoDBErrors);
 // Connecting to the database
 mongoose.connect(dbConfig.url, {
     useNewUrlParser: true
@@ -32,6 +33,18 @@ require('./app/routes/employee.routes.js')(app);
 // define a simple route
 app.get('/', (req, res) => {
     res.json({"message": "Welcome"});
+});
+
+app.use((req ,res,next) =>{
+    req.status = 404;
+    const error = new Error("Route not found");
+    next(error);
+});
+
+app.use((error,req,res,next) => {
+    res.status(req.status || 500).send({
+        message:error.message
+    });
 });
 
 // listen for requests

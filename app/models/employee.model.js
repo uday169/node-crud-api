@@ -2,8 +2,14 @@ const { text } = require('body-parser');
 const mongoose = require('mongoose');
 
 const EmployeeSchema = mongoose.Schema({
-    name:String,
-    email: String,
+    name:{
+        type: String,
+        required: "Name is required"
+    },
+    email:{
+        type: String,
+        required: "Email is required"
+    },
     employeeCode:Number,
     department:String,
     designation:String,
