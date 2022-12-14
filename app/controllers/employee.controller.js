@@ -1,7 +1,9 @@
+const { request } = require('express');
 const Employee = require('../models/employee.model.js');
 
 // Create and Save a new employee
 exports.create = async(req, res) => {
+    console.log("req",req)
     try {
         // Create a employee
         const employee = new Employee({
@@ -10,7 +12,7 @@ exports.create = async(req, res) => {
         employeeCode: req.body.employeeCode,
         department: req.body.department,
         designation: req.body.designation,
-        phone: req.body.phone,
+        mobile: req.body.mobile,
         address: req.body.address,
     });
         // Save employee in the database
@@ -63,7 +65,7 @@ exports.update = async(req, res) => {
             employeeCode: req.body.employeeCode,
             department: req.body.department,
             designation: req.body.designation,
-            phone: req.body.phone,
+            mobile: req.body.mobile,
             address: req.body.address,
        }, {new: true, runValidators: true})
            res.send(employee);

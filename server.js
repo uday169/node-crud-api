@@ -18,6 +18,7 @@ const mongoDBErrors = require('mongoose-mongodb-errors')
 mongoose.Promise = global.Promise;
 mongoose.plugin(mongoDBErrors);
 // Connecting to the database
+mongoose.set("strictQuery", false);
 mongoose.connect(dbConfig.url, {
     useNewUrlParser: true
 }).then(() => {
